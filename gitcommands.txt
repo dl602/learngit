@@ -1,0 +1,7 @@
+git status
+git add
+git commit
+git push
+git remote
+git remote -v
+git commit -m "yourmessage"
