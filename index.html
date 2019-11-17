@@ -1,9 +1,145 @@
 <html>
-    <head>
-        <title>myindexpage</title>
-            <body>
+    
 
-            </body>
-        
+
+
+    
+    
+    <head>
+        <title>Mywebsite</title>
+        <link rel="stylesheet" type="text/css" href="theme.css">
+        <script src="https://unpkg.com/vue"></script>
     </head>
-</html>
+  
+        <body>
+            <div id="app">
+            <header>
+            <img id='logo' src="img1.png" alt="logo">
+
+            <button>Login</button>
+            <button>Shopping basket</button>
+            <button v-on:click="seen=true" >Registration</button>
+            <div v-if="seen">
+            <form>
+               <label for = "name">Full Name</label>
+                   
+                <input v-model="name" type="text" id="name" required>
+               
+                <label for ="email">Email</label>
+                <input v:model="email"type="email" id="email" required>
+                 <label for ="password">Password</label>
+                <input v:model="password" type="password" id="password" required>
+                <input v-on:click="onSubmit()"type="submit">
+
+            </form>
+            </div>
+          
+            </header>
+            <aside>
+            <div class="filter">filter</div>
+            <div class="filter">filter</div>
+            <div class="filter">filter</div>
+            </aside>
+            <main>
+                    <input type="text" v-model="searchText" placeholder="Search...">
+                    <div v-bind:style="mainStyle" v-for="(course,i) in computedCourses" :key="i">
+                            <ul>
+                                <li>topic: {{course.topic}}</li>
+                                <li>location: {{course.location}}</li>
+                                <li>price: {{course.price}}</li>
+                            </ul>
+                        </div>
+                   
+            
+            </main>
+           
+            
+            <footer>
+                </footer>
+                </div>
+                
+        
+            
+                
+            <script>
+                var app1 = new Vue({
+                    el:"#app",
+                    data:{
+                         name:"",
+                        seen:false,
+                        email:" ",
+                        password:" ",
+                        mainStyle:{    //style main prodyct div
+                            backgroundColor:"azure",
+                            border:"2px solid"
+
+                        },
+                            searchText: " ",
+                             courses: [
+                        { 'topic': 'math', 'location': 'hendon', 'price': 100 },
+                        { 'topic': 'math', 'location': 'colindale', 'price': 80 },
+                        { 'topic': 'math', 'location': 'brent cross', 'price': 90 },
+                        { 'topic': 'math', 'location': 'golders green', 'price': 120 },
+                        { 'topic': 'english', 'location': 'hendon', 'price': 110 },
+                        { 'topic': 'english', 'location': 'colindale', 'price': 90 },
+                        { 'topic': 'english', 'location': 'brent cross', 'price': 90 },
+                        { 'topic': 'english', 'location': 'golders green', 'price': 130 },
+                        { 'topic': 'piano', 'location': 'hendon', 'price': 120 },
+                        { 'topic': 'piano', 'location': 'golders green', 'price': 140 }
+                    ]
+                     },
+                methods:{
+                        onSubmit:function(){
+                          var  users=" ";
+                          var newEmail="";}
+                        },
+                          
+            computed:{
+                computedCourses(){
+                    if(this.searchText.trim().length==0){
+                        return this.courses
+                    }else{
+                        return this.courses.filter(c=>
+                        c.topic.toLowerCase().trim().includes(this.searchText.toLowerCase().trim())     //comapres both search and array list string and returns only those that matches 
+
+        
+                        || c.location.toLowerCase().trim().includes(this.searchText.toLowerCase().trim()) // same for the location
+                        )
+                    }
+                }
+            }})
+
+                
+                
+        </script>
+            
+                
+        
+            
+
+    
+                    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          
+               
+         
+            
+    
+            
+        
+        
+            </body>
+            </html>
