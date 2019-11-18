@@ -1,144 +1,247 @@
 <html>
     
-
-
-
     
     
-    <head>
-        <title>Mywebsite</title>
-        <link rel="stylesheet" type="text/css" href="theme.css">
-        <script src="https://unpkg.com/vue"></script>
-    </head>
-  
-        <body>
-            <div id="app">
-            <header>
-            <img id='logo' src="img1.png" alt="logo">
-
-            <button>Login</button>
-            <button>Shopping basket</button>
-            <button v-on:click="seen=true" >Registration</button>
-            <div v-if="seen">
-            <form>
-               <label for = "name">Full Name</label>
-                   
-                <input v-model="name" type="text" id="name" required>
-               
-                <label for ="email">Email</label>
-                <input v:model="email"type="email" id="email" required>
-                 <label for ="password">Password</label>
-                <input v:model="password" type="password" id="password" required>
-                <input v-on:click="onSubmit()"type="submit">
-
-            </form>
-            </div>
+        <head>
+                <title>Mywebsite</title>
+                <link rel="stylesheet" type="text/css" href="css.css">
+                <script src="https://unpkg.com/vue"></script>
+            </head>
           
-            </header>
-            <aside>
-            <div class="filter">filter</div>
-            <div class="filter">filter</div>
-            <div class="filter">filter</div>
-            </aside>
-            <main>
-                    <input type="text" v-model="searchText" placeholder="Search...">
-                    <div v-bind:style="mainStyle" v-for="(course,i) in computedCourses" :key="i">
-                            <ul>
-                                <li>topic: {{course.topic}}</li>
-                                <li>location: {{course.location}}</li>
-                                <li>price: {{course.price}}</li>
-                            </ul>
-                        </div>
-                   
-            
-            </main>
-           
-            
-            <footer>
-                </footer>
-                </div>
-                
+                <body>
+                    <div id="app">
+                    <header>
+                    <img id='logo' src="img.jpg" height="100" width="100" alt="logo">
+                    <button>Home</button>
+                    <button>Login</button>
+                    <button>Shopping basket</button>
+                    <button v-on:click="seen=true" >Registration</button>
+                    <div v-if="seen">
+                    <form>
+                       <label for = "name">Full Name</label>
+                           
+                        <input v-model="name" type="text" id="name" required>
+                       
+                        <label for ="email">Email</label>
+                        <input v:model="email"type="email" id="email" required>
+                         <label for ="password">Password</label>
+                        <input v:model="password" type="password" id="password" required>
+                        <input v-on:click="onSubmit()"type="submit">
         
-            
+                    </form>
+                    </div>
+                 
                 
-            <script>
-                var app1 = new Vue({
-                    el:"#app",
-                    data:{
-                         name:"",
-                        seen:false,
-                        email:" ",
-                        password:" ",
-                        mainStyle:{    //style main prodyct div
-                            backgroundColor:"azure",
-                            border:"2px solid"
-
-                        },
-                            searchText: " ",
-                             courses: [
-                        { 'topic': 'math', 'location': 'hendon', 'price': 100 },
-                        { 'topic': 'math', 'location': 'colindale', 'price': 80 },
-                        { 'topic': 'math', 'location': 'brent cross', 'price': 90 },
-                        { 'topic': 'math', 'location': 'golders green', 'price': 120 },
-                        { 'topic': 'english', 'location': 'hendon', 'price': 110 },
-                        { 'topic': 'english', 'location': 'colindale', 'price': 90 },
-                        { 'topic': 'english', 'location': 'brent cross', 'price': 90 },
-                        { 'topic': 'english', 'location': 'golders green', 'price': 130 },
-                        { 'topic': 'piano', 'location': 'hendon', 'price': 120 },
-                        { 'topic': 'piano', 'location': 'golders green', 'price': 140 }
-                    ]
-                     },
-                methods:{
-                        onSubmit:function(){
-                          var  users=" ";
-                          var newEmail="";}
-                        },
-                          
-            computed:{
-                computedCourses(){
-                    if(this.searchText.trim().length==0){
-                        return this.courses
-                    }else{
-                        return this.courses.filter(c=>
-                        c.topic.toLowerCase().trim().includes(this.searchText.toLowerCase().trim())     //comapres both search and array list string and returns only those that matches 
-
+                  
+                    </header>
+                    <aside>
+                    <div class="filter">
+                        
+                                    <h1>Filters</h1>
+                                    <select multiple v-model='selectedTopic'>
+                                    <option v-for='topic in topics'>
+                                    {{topic}}
+                                    </option>
+                                    </select>
+                                    <p>Selected topics: {{selectedTopic}}</p>
+                                    <!-- <br> -->
+                                    <select multiple v-model='selectedPrice'>
+                                    <option v-for="price in prices">
+                                    {{price}}</option>
+                                    </select>
+                                    <p>Selected Price: {{selectedPrice}}</p>
         
-                        || c.location.toLowerCase().trim().includes(this.searchText.toLowerCase().trim()) // same for the location
-                        )
-                    }
-                }
-            }})
-
-                
-                
-        </script>
-            
-                
+                                    
+                                            <h1>Course list</h1>
+                                            <div v-for="course in filteredCourses">
+                                            <li v-for='(value, name) in course'>{{name}}: {{value}}</li>
+                                            </div>
+                                            <button v-on:click="reset()">Reset</button>
+                                    <h1>Filter by Price range</h1>
+                 <template v-if="show">
+                <ul v-for="item in filterByPrice">
+                    <li>topic:{{item.topic}}</li>
+                        <li>price:{{item.price}}</li>
+                        </ul>
+                        
+        </template>
+        <button v-on:click="show = true">filter by price(low-high</button>
+        </div>
         
-            
-
-    
+        
+        
+        
+        
+                
+                    </aside>
+                    <main>
+                            <input type="text" v-model="searchText" placeholder="Search...">
+                            <br><br>
+                            <div v-bind:style="mainStyle" v-for="(course,i) in computedCourses" :key="i">
+                                    <ul>
+                                        <li>topic: {{course.topic}}</li>
+                                        <li>location: {{course.location}}</li>
+                                        <li>price: {{course.price}}</li>
+                                        <li>reviews:{{course.reviews}}</li>
+                                    </ul>
+                               
+                                           
+                                </div>
+                           
                     
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-          
-               
-         
+                    </main>
+                   
+                    
+                    <footer>
+                        </footer>
+                        </div>
+                        
+                
+                    
+                        
+                    <script>
+                        var app1 = new Vue({
+                            el:"#app",
+                            data:{
+                                 name:"",
+                                seen:false,
+                                email:" ",
+                                password:" ",
+                                mainStyle:{    //style main prodyct div
+                                    backgroundColor:"azure",
+                                    border:"2px solid",
+                                    padding:"20px",
+                                    display:"inline-block",
+                                    margin:"20px",
+                                    backgroundColor:"azure"
+        
+        
+                                },
+                                show:false,
+                                    searchText: " ",
+                                     courses: [
+                                { 'topic': 'math', 'location': 'hendon', 'price': 100,'reviews':4 },
+                                { 'topic': 'math', 'location': 'colindale', 'price': 80 ,'reviews':5},
+                                { 'topic': 'math', 'location': 'brent cross', 'price': 90 ,'reviews':1},
+                                { 'topic': 'math', 'location': 'golders green', 'price': 120,'reviews':2 },
+                                { 'topic': 'english', 'location': 'hendon', 'price': 110,'reviews':1 },
+                                { 'topic': 'english', 'location': 'colindale', 'price': 90 ,'reviews':5},
+                                { 'topic': 'english', 'location': 'brent cross', 'price': 90,'reviews':4 },
+                                { 'topic': 'english', 'location': 'golders green', 'price': 130 ,'reviews':4},
+                                { 'topic': 'piano', 'location': 'hendon', 'price': 120 ,'reviews':4},
+                                { 'topic': 'piano', 'location': 'golders green', 'price': 140,'reviews':4 }
+                            ],
+                            selectedTopic:[],
+                            selectedPrice: [],
+        },
+        
+        
+        
+                        methods:{
+                                onSubmit:function(){
+                                  var  users=" ";
+                                  var newEmail="";},
+                                
+                                reset: function() {
+                            this.selectedTopic = [];
+                            this.selectedPrice = [];
+                                }},
+                 
+        
+                                  
+                    computed:{
+                        computedCourses(){
+                            var computed =false;
+                            if(this.searchText.trim().length==0){
+                                return this.courses;
+                            }else{
+                                return this.courses.filter(c=>
+                                c.topic.toLowerCase().trim().includes(this.searchText.toLowerCase().trim())     //comapres both search and array list string and returns only those that matches 
+        
+                
+                                || c.location.toLowerCase().trim().includes(this.searchText.toLowerCase().trim()) // same for the location
+                                )
+                            }
+                        },
+        
+                        topics: function () { // return an array of all the topics
+        return [...new Set(this.courses.map(x => x.topic))]},
+        
+        prices: function () {
+        return this.courses.map(x => x.price)
+                             },
+                             filteredCourses: function() {
+        var topics = this.selectedTopic, prices = this.selectedPrice;
+        return this.courses.filter(function(course) {
+        var topicMatch = false, priceMatch = false;
+        if (topics.length > 0) {
+        if (topics.includes(course.topic)) {
+        topicMatch = true;
+        }
+        }
+        else {
+        topicMatch = false;
+        }
+        if (prices.length >0) {
+        if (prices.includes(course.price.toString())) {
+        priceMatch = true;
+        }
+        }
+        else {
+        priceMatch = false;
+        }
+        return topicMatch && priceMatch
+        })
+        }
+        ,
+        filterByPrice:function(){
+            return this.courses.sort(function(obj1, obj2) {
+            // Ascending: first age less than the previous
+            return obj1.price - obj2.price;
+        
+        })},
+        
+        
+        
+        
+        }})
+                
+        
+                   
+                             
+        
+                        
+                        
+                </script>
+                    
+                        
+                
+                    
+        
             
-    
+                            
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+                  
+                       
+                 
+                    
             
+
+
+
         
         
             </body>
