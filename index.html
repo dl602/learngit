@@ -15,27 +15,31 @@
             <div id="app">
                  
                             <header>
+                             
                             <img id='logo' src="img.jpg" height="100" width="100" alt="logo">
-                            <button>Home</button>
-                         <form id="login">
+                            <a href="#">Home</a>
+                         <form id="login" v-on:submit.prevent>
                                     <h1>login</h1>
                                     <label for="email">email: </label>
                                     <input required type="email" id="email" v-model='email'>
                                      <label for="password">password: </label>
                                     <input required type="password" id="password" v-model='password'>
-                                     <button v-on:click ='login'>submit</button>
+                                     <button v-on:click ='login'>login</button>
                                     </form>
+                                    <button v-on:click="logout">logout</button>
                     <button>Shopping basket</button>
+                    <br><br>
                                 <div>
                      <form id="signup">
                                 <h1>Sign up</h1>
                                 <label for="email">email: </label>
-                                <input required type="email" id="email" v-model='email'>
+                                <input required type="email" id="email" v-model='email1'>
                                 <label for="password">password: </label>
-                                <input required type="password" id="password" v-model='password'>
-                                <button v-on:click ='register'>submit</button>
+                                <input required type="password" id="password" v-model='password1'>
+                                <button v-on:click ='register'>register</button>
                                 </form>
                             </div>
+                            <span>{{name}}</span>
                           
                             </header>
                          
@@ -120,6 +124,8 @@
                         showLogin:false,
                         email:" ",
                         password:"",
+                        email1:"",
+                        password1:"",
                         mainStyle:{    //style main prodyct div
                             backgroundColor:"azure",
                             border:"2px solid",
@@ -151,13 +157,17 @@
                     selected:"",
                     selectedTopic:[],
                     selectedPrice: [],
-                    name:""
+                    name:" "
 },
 
 
 
              
                     methods:{
+                        logout:function(){
+                       localStorage.removeItem("loggedInUser");
+                       this.name= "you have loggedout "
+                        },
       login:function() {
 // check if the email already exists
 var users = '';
@@ -171,6 +181,9 @@ if (users) {
 if (users.some(function(user) {return (user.email === newEmail && user.password === newPassword)})) {
 localStorage.loggedInUser = newEmail;
 alert(newEmail+' '+'you are logged in');
+return this.name = newEmail;
+
+
 return;
 }
 else {
@@ -178,9 +191,10 @@ alert("email or password doesnt match")
 }
 
 }},
+
 register:function(){
                             var users = '';
-var newEmail = this.email;
+var newEmail = this.email1;
 if (localStorage.getItem('users')) { // 'users' is an array of objects
 users = JSON.parse(localStorage.getItem('users'));
 };
@@ -192,6 +206,7 @@ return;
 users.push({'email': newEmail, 'password': this.password});
 localStorage.setItem('users', JSON.stringify(users));
 alert("registerd succesfully");
+
 }
 else {
 users = [{'email': newEmail, 'password': this.password}];
@@ -203,7 +218,15 @@ alert("registered");
                     reset: function() {
                     this.selectedTopic = [];
                     this.selectedPrice = [];
-                        }},
+                        }
+                        
+                        
+                        
+                        
+                        
+                        
+                        },
+
          
 
                           
