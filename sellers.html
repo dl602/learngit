@@ -1,0 +1,149 @@
+<html>
+<head>
+        <title>Mywebsite</title>
+        <link rel="stylesheet" type="text/css" href="css.css">
+        <script src="https://unpkg.com/vue"></script>
+  
+     
+    </head>
+  
+        <body>
+           
+            <div id="app2">
+                <div>
+                    <head>
+                    <a href="index.html">Home</a>
+                    <form id="login"v-on:submit.prevent>
+                               <h1>login</h1>
+                            <label for="email">email: </label>
+                               <input required type="email" id="email" v-model='email'>
+                                <label for="password">password: </label>
+                               <input required type="password" id="password" v-model='password'>
+                                <button v-on:click ='login'>login</button>
+                               </form>
+                               </head>
+                              
+
+
+
+                <aside>
+                    <h1>My services</h1>
+                    <div class="mylist" v-for="service in services">
+                    <li v-for='(value, name) in service'>{{name}}: {{value}}</li><br>
+                    <button v-on:click="service.price++">Increase Price</button>
+                    <button v-on:Click="service.price--">decrease Price</button>
+                </div>
+                        
+
+<h1>Add Service</h1>
+
+    <form v-on:submit.prevent>
+    Topic<input type="text" v-model="topic" >
+    location<input type="text" v-model="location">
+    price<input type="number" v-model="price">
+    Time<input type="text"v-model="time">
+    <button v-on:click="addService">add </button>
+</form>
+
+              </aside>
+                 <main></main>
+
+                  
+                          
+
+
+                </div>
+                        
+
+
+
+
+
+</div>
+
+
+
+
+
+                            
+                               
+                    
+                
+                
+                
+                      
+                            <script>
+                                var app2 = new Vue({
+                                    el:"#app2",
+                                    data:{
+                                        password:"",
+                                        email:"",
+                                        services: [{'topic': 'math', 'location': 'hendon', 'price': 100,'reviews':4,'time':'9am','days':'[saturday,monday]' },
+                        { 'topic': 'history', 'location': 'colindale', 'price': 80 ,'reviews':5,'time':'7pm','days':'[sunday,monday]'}],
+                                        topic:"",
+                                        location:"",
+                                        price:"",
+                                        time:""
+
+                        
+                        
+                        },
+                                    
+
+
+
+
+
+
+                                methods:{
+                                    login:function() {
+// check if the email already exists
+var users = '';
+var newEmail = this.email;
+var newPassword = this.password;
+
+if (localStorage.getItem('users')) { // 'users' is an array of objects
+users = JSON.parse(localStorage.getItem('users'));
+};
+if (users) {
+if (users.some(function(user) {return (user.email === newEmail && user.password === newPassword)})) {
+localStorage.loggedInUser = newEmail;
+alert(newEmail+' '+'you are logged in');
+
+return this.name = newEmail;
+return this.seen = true;
+return;
+}
+else {
+alert("email or password doesnt match")
+}
+
+}},
+
+
+addService:function(){
+    this.services.push({'topic': this.topic, 'location': this.location,'price':this.price,'time':this.time});
+
+}
+
+
+
+
+}
+
+
+})
+
+                            
+
+                                
+                            
+                            
+                            
+                            
+                            
+                            
+                            </script>
+                            </body>
+</html>
+
