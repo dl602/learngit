@@ -27,7 +27,7 @@
                                      <button v-on:click ='login'>login</button>
                                     </form>
                                     <button v-on:click="logout">logout</button>
-                    <button>Shopping basket</button>
+                    <a href="sellers.html">Sellers</a>
                     <br><br>
                                 <div>
                      <form id="signup">
@@ -53,13 +53,13 @@
                                             {{topic}}
                                             </option>
                                             </select>
-                                            <p>Selected topics: {{selectedTopic}}</p>
+                                            <p>Select topics: {{selectedTopic}}</p>
                                             <!-- <br> -->
                                             <select multiple v-model='selectedPrice'>
                                             <option v-for="price in prices">
                                             {{price}}</option>
                                             </select>
-                                            <p>Selected Price: {{selectedPrice}}</p>
+                                            <p>Select Price: {{selectedPrice}}</p>
                 
                                             
                                                     <h1>Course list</h1>
@@ -74,11 +74,9 @@
                                                             {{ option.text }}
                                                              </option>
                                                             </select>
-                                                            <span>sort: {{ selected }}</span>
+                                                            <span>sort by Price</span>
                                                              <div v-for="course in sortedArray" class="sort">
-                                                                 <span> topic: {{course.topic }}</span>
-                                                                  <span>price: {{course.price}}</span>
-                                                                </div>>
+                                                            </div>
                                                            
 
                                                    
@@ -141,15 +139,15 @@
                             searchText: " ",
                              courses: [
                         { 'topic': 'math', 'location': 'hendon', 'price': 100,'reviews':4 },
-                        { 'topic': 'math', 'location': 'colindale', 'price': 80 ,'reviews':5},
-                        { 'topic': 'math', 'location': 'brent cross', 'price': 90 ,'reviews':1},
+                        { 'topic': 'history', 'location': 'colindale', 'price': 80 ,'reviews':5},
+                        { 'topic': 'science', 'location': 'brent cross', 'price': 90 ,'reviews':1},
                         { 'topic': 'math', 'location': 'golders green', 'price': 120,'reviews':2 },
-                        { 'topic': 'english', 'location': 'hendon', 'price': 110,'reviews':1 },
+                        { 'topic': 'music', 'location': 'hendon', 'price': 110,'reviews':1 },
                         { 'topic': 'english', 'location': 'colindale', 'price': 90 ,'reviews':5},
-                        { 'topic': 'english', 'location': 'brent cross', 'price': 90,'reviews':4 },
+                        { 'topic': 'sports', 'location': 'brent cross', 'price': 90,'reviews':4 },
                         { 'topic': 'english', 'location': 'golders green', 'price': 130 ,'reviews':4},
                         { 'topic': 'piano', 'location': 'hendon', 'price': 120 ,'reviews':4},
-                        { 'topic': 'piano', 'location': 'golders green', 'price': 140,'reviews':4 }
+                        { 'topic': 'guitar', 'location': 'golders green', 'price': 140,'reviews':4 }
                     ],
                     options: [
 { text: 'higher', value: 'A' },
@@ -157,7 +155,8 @@
                     selected:"",
                     selectedTopic:[],
                     selectedPrice: [],
-                    name:" "
+                    name:" ",
+                    prices:[100,80,90,120,110,130,140]
 },
 
 
@@ -166,8 +165,8 @@
                     methods:{
                         logout:function(){
                        localStorage.removeItem("loggedInUser");
-                       this.name= "you have loggedout "
-                        },
+                       alert("you are logged out");
+                       this.name="";},
       login:function() {
 // check if the email already exists
 var users = '';
@@ -218,6 +217,7 @@ alert("registered");
                     reset: function() {
                     this.selectedTopic = [];
                     this.selectedPrice = [];
+
                         }
                         
                         
@@ -248,9 +248,7 @@ alert("registered");
                 topics: function () { // return an array of all the topics
 return [...new Set(this.courses.map(x => x.topic))]},
 
-prices: function () {
-return this.courses.map(x => x.price)
-                     },
+
                      filteredCourses: function() {
 var topics = this.selectedTopic, prices = this.selectedPrice;
 return this.courses.filter(function(course) {
