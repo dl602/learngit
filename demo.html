@@ -1,0 +1,38 @@
+<html>
+
+<head>
+        <title>cw2</title>
+        <script src="https://unpkg.com/vue"></script>
+        <link rel="stylesheet" type="text/css" href="style.css">
+
+
+</head>
+
+<body>
+        <div id='app'>
+        </div>
+        <Script>
+                fetch('http://localhost:3000/users')
+                        .then(function (response) {
+                                return response.text()
+                        }).then(function (text) {
+                                alert(text);
+                                
+                        }).catch(function (err) {
+                                console.log('Fetch problem: ' + err.message);
+                        });
+
+
+
+
+        </script>
+
+
+
+
+
+
+
+</body>
+
+</html>
