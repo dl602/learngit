@@ -1,291 +1,187 @@
 <html>
-    
 
-
-
-    
-    
-    <head>
-        <title>Mywebsite</title>
-        <link rel="stylesheet" type="text/css" href="css.css">
+<head>
+        <title>cw2</title>
         <script src="https://unpkg.com/vue"></script>
-    </head>
-  
-        <body>
-            <div id="app">
-                 
-                            <header>
-                             
-                            <img id='logo' src="img.jpg" height="100" width="100" alt="logo">
-                            <a href="#">Home</a>
-                         <form id="login" v-on:submit.prevent>
-                                    <h1>login</h1>
-                                    <label for="email">email: </label>
-                                    <input required type="email" id="email" v-model='email'>
-                                     <label for="password">password: </label>
-                                    <input required type="password" id="password" v-model='password'>
-                                     <button v-on:click ='login'>login</button>
-                                    </form>
-                                    <button v-on:click="logout">logout</button>
-                    <a href="sellers.html">Sellers</a>
-                    <br><br>
-                                <div>
-                     <form id="signup">
-                                <h1>Sign up</h1>
-                                <label for="email">email: </label>
-                                <input required type="email" id="email" v-model='email1'>
-                                <label for="password">password: </label>
-                                <input required type="password" id="password" v-model='password1'>
-                                <button v-on:click ='register'>register</button>
-                                </form>
-                            </div>
-                            <span>{{name}}</span>
-                          
-                            </header>
-                         
-                <br><br><br><br><br><br>
-                            <aside>
-                            <div class="filter">
-                                
-                                            <h1>Filters</h1>
-                                            <select multiple v-model='selectedTopic'>
-                                            <option v-for='topic in topics'>
-                                            {{topic}}
-                                            </option>
-                                            </select>
-                                            <p>Select topics: {{selectedTopic}}</p>
-                                            <!-- <br> -->
-                                            <select multiple v-model='selectedPrice'>
-                                            <option v-for="price in prices">
-                                            {{price}}</option>
-                                            </select>
-                                            <p>Select Price: {{selectedPrice}}</p>
-                
-                                            
-                                                    <h1>Course list</h1>
-                                                    <div v-for="course in filteredCourses" class="filterc">
-                                                    <li v-for='(value, name) in course'>{{name}}: {{value}}</li>
-                                                    </div>
-                                                    <button v-on:click="reset()">Reset</button>
-
-                                                    <br><br>
-                                                <select v-model="selected">
-                                                            <option v-for="option in options" v-bind:value="option.value">
-                                                            {{ option.text }}
-                                                             </option>
-                                                            </select>
-                                                            <span>sort by Price</span>
-                                                             <div v-for="course in sortedArray" class="sort">
-                                                            </div>
-                                                           
-
-                                                   
-                  
-                    </div>
-                                
-                
-                
-                </aside>
-                <br><br><br><br>
-                            <main>
-                                    <input type="text" v-model="searchText" placeholder="Search...">
-                                    <br><br>
-                                    <div v-bind:style="mainStyle" v-for="(course,i) in computedCourses" :key="i">
-                                            <ul>
-                                                <li>topic: {{course.topic}}</li>
-                                                <li>location: {{course.location}}</li>
-                                                <li>price: {{course.price}}</li>
-                                                <li>reviews:{{course.reviews}}</li>
-                                            </ul>
-                                       
-                                                   
-                                   
-                                        </div>
-                                 </main>
-                           
-                            
-                         
-                   
-         </div>
-
-                
-        
-            
-                
-            <script>
-
-                var app1 = new Vue({
-                    el:"#app",
-                    data:{
-                         name:"",
-                        seen:false,
-                        showLogin:false,
-                        email:" ",
-                        password:"",
-                        email1:"",
-                        password1:"",
-                        mainStyle:{    //style main prodyct div
-                            backgroundColor:"azure",
-                            border:"2px solid",
-                            padding:"20px",
-                            display:"inline-block",
-                            margin:"20px",
-                            backgroundColor:"azure",
-                            message:""
+        <link href="./style.css" rel="stylesheet" type="text/css" />
 
 
+</head>
+
+<body>
+        <div id='app'>
+                <span v-if='currentUser'>
+                        {{currentUser}}
+
+                        <button @click='signout'>Sign out</button>
+
+                        <div v-for='course in results' class='course'>
+                                <ul>
+                                        <li v-for='(value, key) in course'>
+                                                {{key}}: {{value}}
+                                        </li>
+                                </ul>
+                        </div>
+
+
+                </span>
+
+
+
+                <span v-else>
+                        <form>
+
+                                <label for="email">Email</label>
+                                <input required type="email" v-model="email">
+                                <label for="password">Password</label>
+                                <input required type="password" v-model="password">
+                                <input type="radio" id="option1" value="student" v-model="userType">
+                                <label for="option1">student</label>
+                                <input type="radio" id="option2" value="provider" v-model="userType">
+                                <label for="option2">provider</label>
+
+                        </form>
+                        <div v-for='user in users' class='course'>
+                                <ul>
+                                        <li v-for='(value, key) in user'>
+                                                {{key}}: {{value}}
+                                        </li>
+                                </ul>
+                        </div>
+
+
+                        <button v-on:click='signup'>Sign up</button>
+                        </form>
+
+                        <button v-on:click='signin'>Sign in</button>
+                        <button v-on:click='signout'>Sign out</button>
+
+                        {{userMessage}}
+                </span>
+
+        </div>
+        <script>
+                var app = new Vue({
+                        el: "#app",
+                        data: {
+                                currentUser: '',
+                                email: '',
+                                password: '',
+                                userMessage: '',
+                                userType: '',
+                                courses: [],
+                                users: [],
+                                'term': '',
+                                response:''
                         },
-                        show:false,
-                            searchText: " ",
-                             courses: [
-                        { 'topic': 'math', 'location': 'hendon', 'price': 100,'reviews':4 },
-                        { 'topic': 'history', 'location': 'colindale', 'price': 80 ,'reviews':5},
-                        { 'topic': 'science', 'location': 'brent cross', 'price': 90 ,'reviews':1},
-                        { 'topic': 'math', 'location': 'golders green', 'price': 120,'reviews':2 },
-                        { 'topic': 'music', 'location': 'hendon', 'price': 110,'reviews':1 },
-                        { 'topic': 'english', 'location': 'colindale', 'price': 90 ,'reviews':5},
-                        { 'topic': 'sports', 'location': 'brent cross', 'price': 90,'reviews':4 },
-                        { 'topic': 'english', 'location': 'golders green', 'price': 130 ,'reviews':4},
-                        { 'topic': 'piano', 'location': 'hendon', 'price': 120 ,'reviews':4},
-                        { 'topic': 'guitar', 'location': 'golders green', 'price': 140,'reviews':4 }
-                    ],
-                    options: [
-{ text: 'higher', value: 'A' },
-{ text: 'lower', value: 'B' }],
-                    selected:"",
-                    selectedTopic:[],
-                    selectedPrice: [],
-                    name:" ",
-                    prices:[100,80,90,120,110,130,140]
-},
+                        methods: {
+                                signup: function () {
+                                        var data = { email: this.email, password: this.password, userType: this.userType }
+
+                                        fetch('http://localhost:3000/register/collections/users', {
+                                                method: 'POST', // or 'PUT'
+                                                headers: {
+                                                        'Content-Type': 'application/json',
+                                                },
+                                                body: JSON.stringify(data),
+                                        })
+                                                .then((response) => response.json())
+                                                .then((data) => {
+                                                        console.log('Success:', data);
+                                                        alert("registered")
+                                                })
+                                                .catch((error) => {
+                                                        console.error('Error:', error);
+                                                });
 
 
 
-             
-                    methods:{
-                        logout:function(){
-                       localStorage.removeItem("loggedInUser");
-                       alert("you are logged out");
-                       this.name="";},
-      login:function() {
-// check if the email already exists
-var users = '';
-var newEmail = this.email;
-var newPassword = this.password;
+                                },
 
-if (localStorage.getItem('users')) { // 'users' is an array of objects
-users = JSON.parse(localStorage.getItem('users'));
-};
-if (users) {
-if (users.some(function(user) {return (user.email === newEmail && user.password === newPassword)})) {
-localStorage.loggedInUser = newEmail;
-alert(newEmail+' '+'you are logged in');
-return this.name = newEmail;
+                                signin: function () {
+                                        var data = { email: this.email, password: this.password, userType: this.userType }
+
+                                        fetch('http://localhost:3000/login/collections/users', {
+                                                method: 'POST', // or 'PUT'
+                                                headers: {
+                                                        'Content-Type': 'application/json',
+                                                },
+                                                body: JSON.stringify(data),
+                                        })
+                                                .then(function (response) {
+                                                        return response.text()
+                                                }).then(function (text) {
+                                                    
+                                                      alert(text);
+                                                  this.currentUser=this.email
+                                                      
+                                                     
+                                                }).catch(function (err) {
+                                                        console.log('Fetch problem: ' + err.message);
+                                                });
 
 
-return;
-}
-else {
-alert("email or password doesnt match")
-}
 
-}},
 
-register:function(){
-                            var users = '';
-var newEmail = this.email1;
-if (localStorage.getItem('users')) { // 'users' is an array of objects
-users = JSON.parse(localStorage.getItem('users'));
-};
-if (users) {
-if (users.some(function(user) {return user.email === newEmail})) {
-alert('Email already exists!');
-return;
-}
-users.push({'email': newEmail, 'password': this.password});
-localStorage.setItem('users', JSON.stringify(users));
-alert("registerd succesfully");
 
-}
-else {
-users = [{'email': newEmail, 'password': this.password}];
-localStorage.setItem('users', JSON.stringify(users));
-alert("registered");
-}},
 
-                          
-                    reset: function() {
-                    this.selectedTopic = [];
-                    this.selectedPrice = [];
 
+
+
+
+                                }
+
+
+
+
+
+
+
+
+
+
+
+
+                                ,
+
+                                signout: function () {
+
+                                        this.currentUser = '';
+                                        this.email = '';
+                                        this.password = '';
+                                }
                         }
-                        
-                        
-                        
-                        
-                        
-                        
-                        },
 
-         
+                        ,
+                        computed: {
+                                results: function () {
+                                        return this.courses.filter(course =>
+                                                course.topic.includes(this.term)
+                                        )
+                                }
+                        }
+                })
+                fetch('http://localhost:3000/collections/products')
 
-                          
-            computed:{
-                computedCourses(){
-                    var computed =false;
-                    if(this.searchText.trim().length==0){
-                        return this.courses;
-                    }else{
-                        return this.courses.filter(c=>
-                        c.topic.toLowerCase().trim().includes(this.searchText.toLowerCase().trim())     //comapres both search and array list string and returns only those that matches 
+                        .then(response => {
 
-        
-                        || c.location.toLowerCase().trim().includes(this.searchText.toLowerCase().trim()) // same for the location
-                        )
-                    }
-                },
-
-                topics: function () { // return an array of all the topics
-return [...new Set(this.courses.map(x => x.topic))]},
+                                return response.json();
+                        })
 
 
-                     filteredCourses: function() {
-var topics = this.selectedTopic, prices = this.selectedPrice;
-return this.courses.filter(function(course) {
-var topicMatch = false, priceMatch = false;
-if (topics.length > 0) {
-if (topics.includes(course.topic)) {
-topicMatch = true;
-}
-}
-else {
-topicMatch = false;
-}
-if (prices.length >0) {
-if (prices.includes(course.price.toString())) {
-priceMatch = true;
-}
-}
-else {
-priceMatch = false;
-}
-return topicMatch && priceMatch
-})
-  },
- sortedArray: function(){
-              if(this.selected ==="A"){
-             function compare(a,b){
-             return b.price-a.price}}
-            if(this.selected==="B"){
-                      function compare(a,b){
-                        return a.price -b.price}}
-                    
-          
-                    return this.courses.sort(compare);
-  }}
+                        .then(response => {
+                                // alert(response);
+                                app.courses = response;
+                        }).catch(function (err) {
+                                console.log('Fetch problem: ' + err.message);
+                        })
 
-})
 
-</script>
-            </body>
-            </html>
+
+        </script>
+
+
+
+</body>
+
+</html>
