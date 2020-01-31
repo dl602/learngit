@@ -25,6 +25,11 @@
 
 
                 </span>
+                <span v-else-if="provider">
+                        <p>hello</p>
+
+
+                </span>
 
 
 
@@ -72,13 +77,14 @@
                                 courses: [],
                                 users: [],
                                 'term': '',
-                                response:''
+                                response: '',
+                                provider:''
                         },
                         methods: {
                                 signup: function () {
                                         var data = { email: this.email, password: this.password, userType: this.userType }
 
-                                        fetch('http://localhost:3000/register/collections/users', {
+                                        fetch('http://localhost:3000/collections/users', {
                                                 method: 'POST', // or 'PUT'
                                                 headers: {
                                                         'Content-Type': 'application/json',
@@ -99,26 +105,27 @@
                                 },
 
                                 signin: function () {
-                                        var data = { email: this.email, password: this.password, userType: this.userType }
+                                              
+                                        
+                                        var newEmail = this.email;
+                                        var newPassword = this.password;
+                                        if (this.users.some(function (user) { return (user.email === newEmail && user.password ===newPassword &&user.userType=='provider') })) {
+                                                alert("loggedin")
+                                                this.currentUser = this.email
+                                        }
+                                        else if (this.users.some(function (user) { return (user.email === newEmail && user.password ===newPassword &&user.userType=='student') })) {
+                                               alert ('loggedin')
+                                                this.provider=this.email;
+                                        }
 
-                                        fetch('http://localhost:3000/login/collections/users', {
-                                                method: 'POST', // or 'PUT'
-                                                headers: {
-                                                        'Content-Type': 'application/json',
-                                                },
-                                                body: JSON.stringify(data),
-                                        })
-                                                .then(function (response) {
-                                                        return response.text()
-                                                }).then(function (text) {
-                                                    
-                                                      alert(text);
-                                                  this.currentUser=this.email
-                                                      
-                                                     
-                                                }).catch(function (err) {
-                                                        console.log('Fetch problem: ' + err.message);
-                                                });
+
+
+
+
+
+
+
+
 
 
 
@@ -176,6 +183,20 @@
                                 console.log('Fetch problem: ' + err.message);
                         })
 
+                fetch('http://localhost:3000/collections/users')
+
+                        .then(response => {
+
+                                return response.json();
+                        })
+
+
+                        .then(response => {
+                                // alert(response);
+                                app.users = response;
+                        }).catch(function (err) {
+                                console.log('Fetch problem: ' + err.message);
+                        })
 
 
         </script>
