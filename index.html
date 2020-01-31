@@ -26,7 +26,13 @@
 
                 </span>
                 <span v-else-if="provider">
-                        <p>hello</p>
+                        <div v-for='product in providerCourse' class='course'>
+                                <ul>
+                                        <li v-for='(value, key) in product'>
+                                                {{key}}: {{value}}
+                                        </li>
+                                </ul>
+                        </div>
 
 
                 </span>
@@ -46,13 +52,8 @@
                                 <label for="option2">provider</label>
 
                         </form>
-                        <div v-for='user in users' class='course'>
-                                <ul>
-                                        <li v-for='(value, key) in user'>
-                                                {{key}}: {{value}}
-                                        </li>
-                                </ul>
-                        </div>
+                      
+                      
 
 
                         <button v-on:click='signup'>Sign up</button>
@@ -165,8 +166,19 @@
                                         return this.courses.filter(course =>
                                                 course.topic.includes(this.term)
                                         )
+                                },
+                                providerCourse:function(){
+                                        newEmail=this.email
+                                        return this.courses.filter(function(course){
+                                                if(course.email===newEmail){
+                                                        return course.topic
+                                                }
+                                        })
+                                        
                                 }
+
                         }
+                        
                 })
                 fetch('http://localhost:3000/collections/products')
 
