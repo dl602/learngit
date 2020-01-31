@@ -33,6 +33,13 @@ app.get('/', function (req, res) {
     res.sendFile(path.join(__dirname + '/index.html'));
 
 })
+app.get('/collections/:collectionName', (req, res, next) => {
+    req.collection.find({}).toArray((e, results) => {
+    if (e) return next(e)
+    res.send(results)
+    }
+    )
+    })
 // retrieve all the objects from an collection
 app.get('/collections/:collectionName',  (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
