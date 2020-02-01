@@ -3,7 +3,7 @@
 <head>
         <title>cw2</title>
         <script src="https://unpkg.com/vue"></script>
-        <link href="./style.css" rel="stylesheet" type="text/css" />
+        <link href="style.css" rel="stylesheet" type="text/css" />
 
 
 </head>
@@ -26,6 +26,7 @@
 
                 </span>
                 <span v-else-if="provider">
+                        <button @click='signout'>Sign out</button>
                         <div v-for='product in providerCourse' class='course'>
                                 <ul>
                                         <li v-for='(value, key) in product'>
@@ -33,6 +34,40 @@
                                         </li>
                                 </ul>
                         </div>
+                        <h1>Add Service</h1>
+
+                        <form>
+                                Topic:<input type="text" v-model="topic">
+                                location:<input type="text" v-model="location">
+                                price<input type="number" v-model="price">
+                                Time<input type="time" v-model="time">
+
+
+                        </form>
+                        <button v-on:click="addService">add service</button>
+                        <p>update course</p>
+                        <p>please enter the ID of the course you wanna change</p>
+
+                        <form >
+                                ID:<input type='text' v-model="id">
+                                Topic:<input type="text" v-model="newTopic">
+                                location:<input type="text" v-model="newLocation">
+                                price<input type="number" v-model="newPrice">
+                                Time<input type="time" v-model="newTime">
+
+                                <button v-on:click="update">update course</button>
+                        </form>
+                        <h3>delete course</h3>
+                      Enter Id:  <input type ="text" v-model="deleteId">
+                      <button v-on:click="deleteCourse">Delete course</button>
+
+
+
+
+                      
+
+
+
 
 
                 </span>
@@ -51,12 +86,11 @@
                                 <input type="radio" id="option2" value="provider" v-model="userType">
                                 <label for="option2">provider</label>
 
-                        </form>
-                      
-                      
 
 
-                        <button v-on:click='signup'>Sign up</button>
+
+
+                                <button v-on:click='signup'>Sign up</button>
                         </form>
 
                         <button v-on:click='signin'>Sign in</button>
@@ -79,14 +113,25 @@
                                 users: [],
                                 'term': '',
                                 response: '',
-                                provider:''
+                                provider: '',
+                                topic: '',
+                                location: '',
+                                price: '',
+                                time: '',
+                                id: '',
+                                newTopic: '',
+                                newLocation: '',
+
+                                newPrice: '',
+                                newTime: '',
+                                deleteId:''
                         },
                         methods: {
                                 signup: function () {
                                         var data = { email: this.email, password: this.password, userType: this.userType }
 
                                         fetch('http://localhost:3000/collections/users', {
-                                                method: 'POST', // or 'PUT'
+                                                method: 'post', // or 'PUT'
                                                 headers: {
                                                         'Content-Type': 'application/json',
                                                 },
@@ -100,64 +145,92 @@
                                                 .catch((error) => {
                                                         console.error('Error:', error);
                                                 });
-
-
-
-                                },
+                                                 },
 
                                 signin: function () {
-                                              
-                                        
+
+
                                         var newEmail = this.email;
                                         var newPassword = this.password;
-                                        if (this.users.some(function (user) { return (user.email === newEmail && user.password ===newPassword &&user.userType=='provider') })) {
+                                        if (this.users.some(function (user) { return (user.email === newEmail && user.password === newPassword && user.userType === 'student') })) {
                                                 alert("loggedin")
                                                 this.currentUser = this.email
                                         }
-                                        else if (this.users.some(function (user) { return (user.email === newEmail && user.password ===newPassword &&user.userType=='student') })) {
-                                               alert ('loggedin')
-                                                this.provider=this.email;
+                                        else if (this.users.some(function (user) { return (user.email === newEmail && user.password === newPassword && user.userType === 'provider') })) {
+                                                alert('loggedin')
+                                                this.provider = this.email;
                                         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                }
-
-
-
-
-
-
-
-
-
-
-
-
-                                ,
+                                },
 
                                 signout: function () {
 
                                         this.currentUser = '';
                                         this.email = '';
                                         this.password = '';
+                                        this.provider = '';
+                                },
+                                addService: function () {
+                                        var data = { topic: this.topic, location: this.location, price: this.price, time: this.time, email: this.email }
+
+                                        fetch('http://localhost:3000/collections/products', {
+                                                method: 'POST', // or 'PUT'
+                                                headers: {
+                                                        'Content-Type': 'application/json',
+                                                },
+                                                body: JSON.stringify(data),
+                                        })
+                                                .then((response) => response.json())
+                                                .then((data) => {
+                                                        console.log('Success:', data);
+                                                        alert("added")
+                                                })
+                                                .catch((error) => {
+                                                        console.error('Error:', error);
+                                                });
+
+                                },
+                                update: function () {
+                                        var id = this.id;
+                                        var data = { topic: this.newTopic, location: this.newLocation, price: this.newPrice, time: this.newTime }
+
+
+                                        fetch(`http://localhost:3000/collections/products/${id}`, {
+                                                method: 'Put',
+                                                headers: {
+                                                        'Content-Type': 'application/json',
+                                                },
+                                                body: JSON.stringify(data),
+                                        })
+                                                .then((response) => response.json())
+                                                .then((data) => {
+                                                        console.log('Success:', data);
+                                                        alert("updated")
+                                                })
+                                                .catch((error) => {
+                                                        console.error('Error:', error);
+                                                });
+                                },
+                                deleteCourse:function(){
+                                        var deleteId=this.deleteId;
+                                        fetch(`http://localhost:3000/collections/products/${deleteId}`, {
+                                                method: 'delete',
+                                                headers: {
+                                                        'Content-Type': 'application/json',
+                                                },
+                                             
+                                        })
+                                                .then((response) => response.json())
+                                                .then((data) => {
+                                                        console.log('Success:', data);
+                                                        alert("updated")
+                                                })
+                                                .catch((error) => {
+                                                        console.error('Error:', error);
+                                                });
                                 }
+
+                                
+
                         }
 
                         ,
@@ -167,18 +240,17 @@
                                                 course.topic.includes(this.term)
                                         )
                                 },
-                                providerCourse:function(){
-                                        newEmail=this.email
-                                        return this.courses.filter(function(course){
-                                                if(course.email===newEmail){
+                                providerCourse: function () {
+                                        newEmail = this.email
+                                        return this.courses.filter(function (course) {
+                                                if (course.email === newEmail) {
                                                         return course.topic
                                                 }
                                         })
-                                        
+
                                 }
 
                         }
-                        
                 })
                 fetch('http://localhost:3000/collections/products')
 
