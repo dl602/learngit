@@ -172,7 +172,7 @@
                                 addService: function () {
                                         var data = { topic: this.topic, location: this.location, price: this.price, time: this.time, email: this.email }
 
-                                        fetch('http://localhost:3000/collections/products', {
+                                        fetch('http://localhost:3000/collections/courses', {
                                                 method: 'POST', // or 'PUT'
                                                 headers: {
                                                         'Content-Type': 'application/json',
@@ -194,7 +194,7 @@
                                         var data = { topic: this.newTopic, location: this.newLocation, price: this.newPrice, time: this.newTime }
 
 
-                                        fetch(`http://localhost:3000/collections/products/${id}`, {
+                                        fetch(`http://localhost:3000/collections/courses/${id}`, {
                                                 method: 'Put',
                                                 headers: {
                                                         'Content-Type': 'application/json',
@@ -212,7 +212,7 @@
                                 },
                                 deleteCourse:function(){
                                         var deleteId=this.deleteId;
-                                        fetch(`http://localhost:3000/collections/products/${deleteId}`, {
+                                        fetch(`http://localhost:3000/collections/courses/${deleteId}`, {
                                                 method: 'delete',
                                                 headers: {
                                                         'Content-Type': 'application/json',
@@ -252,7 +252,7 @@
 
                         }
                 })
-                fetch('http://localhost:3000/collections/products')
+                fetch('http://localhost:3000/collections/courses')
 
                         .then(response => {
 
