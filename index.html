@@ -14,15 +14,12 @@
                         {{currentUser}}
 
                         <button @click='signout'>Sign out</button>
-
-                        <div v-for='course in results' class='course'>
-                                <ul>
-                                        <li v-for='(value, key) in course'>
-                                        <img :src="'data/img/'+course.slug+'.jpg'" :alt="course.">
-                                                {{key}}: {{value}}
-                                        </li>
-                                </ul>
-                        </div>
+                        <article v-for="course in courses">
+                                        <img :src="'data/img/'+course.slug+'.jpg'" :alt="course.topic">
+                                        <h3>{{course.name}}</h3>
+                                        
+                                        
+                        </article>
 
 
                 </span>
@@ -288,6 +285,6 @@
 
 
 
-</body>
+
 
 </html>
