@@ -15,11 +15,10 @@
 
                         <button @click='signout'>Sign out</button>
                         <article v-for="course in courses">
-                                        <img :src="'data/img/'+course.slug+'.jpg'" :alt="course.topic">
+                                        <img :src="'data/img/'+course.slug+'.jpg'" :alt="course.name">
                                         <h3>{{course.name}}</h3>
                                         
-                                        
-                        </article>
+                                        </article>
 
 
                 </span>
@@ -285,6 +284,6 @@
 
 
 
-
+</body>
 
 </html>
