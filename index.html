@@ -14,11 +14,12 @@
                         {{currentUser}}
 
                         <button @click='signout'>Sign out</button>
+
                         <article v-for="course in courses">
-                                        <img :src="'data/img/'+course.slug+'.jpg'" :alt="course.name">
-                                        <h3>{{course.name}}</h3>
-                                        
-                                        </article>
+                                <img :src="'data/img/'+course.slug+'.jpg'" :alt="course.topic">
+                                <h3>{{course.topic}}</h3>
+
+                        </article>
 
 
                 </span>
@@ -45,7 +46,7 @@
                         <p>update course</p>
                         <p>please enter the ID of the course you wanna change</p>
 
-                        <form >
+                        <form>
                                 ID:<input type='text' v-model="id">
                                 Topic:<input type="text" v-model="newTopic">
                                 location:<input type="text" v-model="newLocation">
@@ -55,13 +56,13 @@
                                 <button v-on:click="update">update course</button>
                         </form>
                         <h3>delete course</h3>
-                      Enter Id:  <input type ="text" v-model="deleteId">
-                      <button v-on:click="deleteCourse">Delete course</button>
+                        Enter Id: <input type="text" v-model="deleteId">
+                        <button v-on:click="deleteCourse">Delete course</button>
 
 
 
 
-                      
+
 
 
 
@@ -121,7 +122,7 @@
 
                                 newPrice: '',
                                 newTime: '',
-                                deleteId:''
+                                deleteId: ''
                         },
                         methods: {
                                 signup: function () {
@@ -142,7 +143,7 @@
                                                 .catch((error) => {
                                                         console.error('Error:', error);
                                                 });
-                                                 },
+                                },
 
                                 signin: function () {
 
@@ -207,14 +208,14 @@
                                                         console.error('Error:', error);
                                                 });
                                 },
-                                deleteCourse:function(){
-                                        var deleteId=this.deleteId;
+                                deleteCourse: function () {
+                                        var deleteId = this.deleteId;
                                         fetch(`http://localhost:3000/collections/courses/${deleteId}`, {
                                                 method: 'delete',
                                                 headers: {
                                                         'Content-Type': 'application/json',
                                                 },
-                                             
+
                                         })
                                                 .then((response) => response.json())
                                                 .then((data) => {
@@ -226,7 +227,7 @@
                                                 });
                                 }
 
-                                
+
 
                         }
 
