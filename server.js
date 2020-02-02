@@ -33,13 +33,6 @@ app.get('/', function (req, res) {
     res.sendFile(path.join(__dirname + '/index.html'));
 
 })
-app.get('/collections/:collectionName', (req, res, next) => {
-    req.collection.find({}).toArray((e, results) => {
-    if (e) return next(e)
-    res.send(results)
-    }
-    )
-    })
 // retrieve all the objects from an collection
 app.get('/collections/:collectionName',  (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -59,31 +52,23 @@ res.send(results.ops)
 console.log(req.body)
 })
 })
-//login
-app.post('/login/collections/:collectionName',urlencodeParser, (req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-// TODO: Validate req.body
-var email = req.body.email
-req.collection.findOne({ email: req.body.email}, function(err, user) {
-    if(user ===null){
-      res.send('not registered');
-     
-   }else if (user.email === req.body.email && user.password === req.body.password){
-   res.send('successful');
-   console.log('successful')
-   
- } else {
-   console.log("Credentials wrong");
-   res.end("credentials wrong");
- }
-});
+
+app.get('/collections/:collectionName', (req, res, next) => {
+    req.collection.find({}).toArray((e, results) => {
+    if (e) return next(e)
+    res.send(results)
+    }
+    )
+    })
+
+    
+    
 
 
 
 
-}
 
-)
+
 // retrieve a lesson by mongodb ID
 const ObjectID = require('mongodb').ObjectID;
 

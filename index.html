@@ -18,6 +18,7 @@
                         <div v-for='course in results' class='course'>
                                 <ul>
                                         <li v-for='(value, key) in course'>
+                                        <img :src="'data/img/'+course.slug+'.jpg'" :alt="course.">
                                                 {{key}}: {{value}}
                                         </li>
                                 </ul>
