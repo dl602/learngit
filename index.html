@@ -4,6 +4,7 @@
         <title>cw2</title>
         <script src="https://unpkg.com/vue"></script>
         <link href="style.css" rel="stylesheet" type="text/css" />
+        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 
 
 </head>
@@ -16,9 +17,9 @@
                         <button @click='signout'>Sign out</button>
 
                         <article v-for="course in courses">
-                                <img :src="'data/img/'+course.slug+'.jpg'" :alt="course.topic">
-                                <h3>{{course.topic}}</h3>
-                                <h3>{{course.price}}</h3>
+                                <img :src="'data/img/'+course.slug+'.jpg'" :alt="course.topic" :height="100">
+                                <h3>course:{{course.topic}}</h3>
+                                <h3>price:{{course.price}}</h3>
 
                         </article>
 

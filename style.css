@@ -4,3 +4,17 @@
     padding:25px;
 
 }
+body {
+    font-family: 'Open Sans', sans-serif;
+    min-height: 75rem;
+    padding-top: 4.5rem;
+  }
+  
+h1,h2,h3,h4,h5,h6 {
+    font-family: 'Open Sans', sans-serif;
+    color:orange;
+}
+p {
+    font-size: 18px;
+    font-family: 'Open Sans', sans-serif;
+}
