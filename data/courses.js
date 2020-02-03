@@ -1,7 +1,7 @@
 var courses = [{
     slug: 'science',
     name: 'science',
-    author: 'Zosia and Bartek',
+    author: 'dan',
     twitter: 'bartaz',
     website: '',
     github: 'github.com/bartaz/lost-in-cyberspace'
@@ -9,7 +9,7 @@ var courses = [{
 {
     slug: 'dance',
     name: 'dance',
-    author: 'Platane',
+    author: 'dan',
     twitter: 'platane_',
     website: 'github.com/Platane',
     github: 'github.com/Platane/js13k-2017'
@@ -17,7 +17,7 @@ var courses = [{
 {
     slug: 'dart',
     name: 'dart',
-    author: 'Mary Knize',
+    author: 'apple',
     twitter: 'captainpainway',
     website: 'maryknize.com',
     github: 'github.com/captainpainway/coconutty'
@@ -25,7 +25,7 @@ var courses = [{
 {
     slug: 'math',
     name: 'math',
-    author: 'MarcGuinea',
+    author: 'apple',
     twitter: 'MarcGuineaCasas',
     website: 'marcguinea.com',
     github: 'github.com/mguinea/lost-pacman'
