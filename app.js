@@ -184,7 +184,7 @@ fetch('http://localhost:3000/collections/users')
 
     if('serviceWorker' in navigator) {
         navigator.serviceWorker.register('sw.js');
-    };
+        };
 
 
 
