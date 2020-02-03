@@ -4,7 +4,7 @@ self.addEventListener('install', (e) => {
 
 var cacheName = 'cw2-2';
 var coursesImages = [];
-for(var i=0; i<courses.length; i++) {
+for(var i=0; i<lesson.length; i++) {
 CoursesImages.push('data/img/'+lesson[i].slug+'.jpg');
 }
 var contentToCache = appShellFiles.concat(coursesImages);
