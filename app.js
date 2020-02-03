@@ -196,7 +196,7 @@ fetch('http://localhost:3000/collections/users')
         });
         })
         function randomNotification() {
-            var randomItem = Math.floor(Math.random()*courses.length);
+            var randomItem = Math.floor(Math.random()*app.lesson.length);
             var notifTitle = app.lesson[randomItem].name;
             var notifBody = 'taught by '+app.lesson[randomItem].author+'.';
             var notifImg = 'data/img/'+app.lesson[randomItem].slug+'.jpg';
