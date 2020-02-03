@@ -23,8 +23,8 @@ var app = new Vue({
         newPrice: '',
         newTime: '',
         deleteId: '',
-        lesson:courses,
-       
+        lesson: courses,
+
     },
     methods: {
         signup: function () {
@@ -128,16 +128,16 @@ var app = new Vue({
                     console.error('Error:', error);
                 });
         },
-       
-        }
 
-        
+    }
 
 
 
-    
 
-  
+
+
+
+
 
     ,
     computed: {
@@ -189,29 +189,56 @@ fetch('http://localhost:3000/collections/users')
     })
 
 
-    if('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('sw.js');
-        };
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js');
+};
 
 
-        var button = document.getElementById("notifications");
-        button.addEventListener('click', function(e) {
-        Notification.requestPermission().then(function(result) {
-        if(result === 'granted') {
-        randomNotification();
+var button = document.getElementById("notifications");
+button.addEventListener('click', function (e) {
+    Notification.requestPermission().then(function (result) {
+        if (result === 'granted') {
+            randomNotification();
+        }
+    });
+})
+function randomNotification() {
+    var randomItem = Math.floor(Math.random() * app.lesson.length);
+    var notifTitle = app.lesson[randomItem].name;
+    var notifBody = 'taught by ' + app.lesson[randomItem].author + '.';
+    var notifImg = 'data/img/' + app.lesson[randomItem].slug + '.jpg';
+    var options = {
+        body: notifBody,
+        icon: notifImg
+    }
+    var notif = new Notification(notifTitle, options);
+    setTimeout(randomNotification, 30000);
+};
+
+
+let imagesToLoad = document.querySelectorAll('img[data-src]');
+const loadImages = (image) => {
+    image.setAttribute('src', image.getAttribute('data-src'));
+    image.onload = () => {
+        image.removeAttribute('data-src');
+    };
+};
+imagesToLoad.forEach((img) => {
+    loadImages(img);
+    });if('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((items, observer) => {
+        items.forEach((item) => {
+        if(item.isIntersecting) {
+        loadImages(item.target);
+        observer.unobserve(item.target);
         }
         });
-        })
-        function randomNotification() {
-            var randomItem = Math.floor(Math.random()*app.lesson.length);
-            var notifTitle = app.lesson[randomItem].name;
-            var notifBody = 'taught by '+app.lesson[randomItem].author+'.';
-            var notifImg = 'data/img/'+app.lesson[randomItem].slug+'.jpg';
-            var options = {
-                body: notifBody,
-                icon: notifImg
-            }
-            var notif = new Notification(notifTitle, options);
-            setTimeout(randomNotification, 30000);};
-                    
-    
+        });
+        imagesToLoad.forEach((img) => {
+        observer.observe(img);
+        });
+        } else {
+        imagesToLoad.forEach((img) => {
+        loadImages(img);
+        });
+        }
