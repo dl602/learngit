@@ -206,5 +206,5 @@ fetch('http://localhost:3000/collections/users')
             }
             var notif = new Notification(notifTitle, options);
             setTimeout(randomNotification, 30000);};
-                        
+                    
     
