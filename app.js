@@ -23,7 +23,16 @@ var app = new Vue({
         newPrice: '',
         newTime: '',
         deleteId: '',
-        lesson:courses
+        lesson:courses,
+        options: [
+            { text: 1, value: 1 },
+            { text: 2, value: 2 },
+            { text: 3, value: 3 },
+            { text: 4, value: 4 },
+            { text: 5, value: 5 }
+        ],
+            selected:'',
+            rateId:''
     },
     methods: {
         signup: function () {
@@ -126,11 +135,36 @@ var app = new Vue({
                 .catch((error) => {
                     console.error('Error:', error);
                 });
+        },
+        addRate:function(){
+            var id = this.rateId;
+            newEmail = this.email;
+            var data = {rate:[{rate:this.selected}, {email:newEmail }] }
+
+
+            fetch(`http://localhost:3000/collections/courses/${id}`, {
+                method: 'Put',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log('Success:', data);
+                    alert("updated")
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
         }
+
+        
 
 
 
     }
+  
 
     ,
     computed: {

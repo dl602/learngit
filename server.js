@@ -33,6 +33,9 @@ app.get('/', function (req, res) {
     res.sendFile(path.join(__dirname + '/index.html'));
 
 })
+app.get('*', function (request, response){
+    response.sendFile(path.resolve(__dirname+ 'index.html'))
+  })
 // retrieve all the objects from an collection
 app.get('/collections/:collectionName',  (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
