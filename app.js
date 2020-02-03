@@ -214,6 +214,24 @@ function randomNotification() {
     var notif = new Notification(notifTitle, options);
     setTimeout(randomNotification, 30000);
 };
+self.addEventListener('fetch', (e) => {
+    console.log('[Service Worker] Fetched resource '+e.request.url);
+    });
+
+    self.addEventListener('fetch', function (e) {
+        e.respondWith(
+        caches.match(e.request).then(function (r) {
+        console.log('[Service Worker] Fetching resource: ' + e.request.url);
+        return r || fetch(e.request).then(function (response) {
+        return caches.open(cacheName).then(function (cache) {
+        console.log('[Service Worker] Caching new resource: ' + e.request.url);
+        cache.put(e.request, response.clone());
+        return response;
+        });
+        });
+        })
+        );
+        });
 
 
 let imagesToLoad = document.querySelectorAll('img[data-src]');
@@ -225,7 +243,9 @@ const loadImages = (image) => {
 };
 imagesToLoad.forEach((img) => {
     loadImages(img);
-    });if('IntersectionObserver' in window) {
+    });
+    
+    if('IntersectionObserver' in window) {
         const observer = new IntersectionObserver((items, observer) => {
         items.forEach((item) => {
         if(item.isIntersecting) {
