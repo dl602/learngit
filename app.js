@@ -187,7 +187,24 @@ fetch('http://localhost:3000/collections/users')
         };
 
 
-
-  
+        var button = document.getElementById("notifications");
+        button.addEventListener('click', function(e) {
+        Notification.requestPermission().then(function(result) {
+        if(result === 'granted') {
+        randomNotification();
+        }
+        });
+        })
+        function randomNotification() {
+            var randomItem = Math.floor(Math.random()*courses.length);
+            var notifTitle = app.lesson[randomItem].name;
+            var notifBody = 'taught by '+app.lesson[randomItem].author+'.';
+            var notifImg = 'data/img/'+app.lesson[randomItem].slug+'.jpg';
+            var options = {
+                body: notifBody,
+                icon: notifImg
+            }
+            var notif = new Notification(notifTitle, options);
+            setTimeout(randomNotification, 30000);};
                         
     

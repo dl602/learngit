@@ -5,10 +5,11 @@
         <script src="https://unpkg.com/vue"></script>
         <link href="style.css" rel="stylesheet" type="text/css" />
         <meta name="theme-color" content="#B12A34">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
         <script src="app.js" defer></script>
         <script src="data/courses.js"></script>
+        <link rel="manifest" href="cw2backendpwa.webmanifest">
 
 
 </head>
@@ -79,7 +80,9 @@
 
 
                 <span v-else>
+                        <button id="notifications">Request dummy notifications</button>
                         <form>
+
 
                                 <label for="email">Email</label>
                                 <input required type="email" v-model="email">
@@ -104,17 +107,17 @@
                         <article v-for="course in lesson">
                                 <img :src="'data/img/'+course.slug+'.jpg'" :alt="course.name" :height="100">
                                 <h3>course:{{course.name}}</h3>
-                               
+
 
                         </article>
 
-                    
+
 
                         {{userMessage}}
                 </span>
 
         </div>
-       
+
 
 
 
