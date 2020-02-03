@@ -6,7 +6,7 @@
         <link href="style.css" rel="stylesheet" type="text/css" />
         <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
         <script src="app.js" defer></script>
-        <script src="data/courses.js" defer></script>
+        <script src="data/courses.js"></script>
 
 
 </head>
@@ -95,16 +95,18 @@
                                 <button v-on:click='signup'>Sign up</button>
 
                         </form>
+                        <button v-on:click='signin'>Sign in</button>
+                        <button v-on:click='signout'>Sign out</button>
 
-                        <article v-for="course in courses">
-                                <img :src="'data/img/'+course.slug+'.jpg'" :alt="course.topic" :height="100">
-                                <h3>course:{{course.topic}}</h3>
-                                <h3>price:{{course.price}}</h3>
+
+                        <article v-for="course in lesson">
+                                <img :src="'data/img/'+course.slug+'.jpg'" :alt="course.name" :height="100">
+                                <h3>course:{{course.name}}</h3>
+                               
 
                         </article>
 
-                        <button v-on:click='signin'>Sign in</button>
-                        <button v-on:click='signout'>Sign out</button>
+                    
 
                         {{userMessage}}
                 </span>
