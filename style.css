@@ -25,3 +25,9 @@ article img[data-src] {
     filter: blur(0em);
     transition: filter 0.5s;
     }
+    article {
+        margin:10px;
+        padding:10px;
+        display:inline-block;
+
+    }
