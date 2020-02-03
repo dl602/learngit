@@ -183,7 +183,7 @@ fetch('http://localhost:3000/collections/users')
 
 
     if('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/learngit/sw.js');
+        navigator.serviceWorker.register('sw.js');
     };
 
 
