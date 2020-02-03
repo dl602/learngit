@@ -38,7 +38,7 @@ var app = new Vue({
         signup: function () {
             var data = { email: this.email, password: this.password, userType: this.userType }
 
-            fetch('http://localhost:3000/collections/users', {
+            fetch('https://localhost:3000/collections/users', {
                 method: 'post', // or 'PUT'
                 headers: {
                     'Content-Type': 'application/json',
@@ -80,7 +80,7 @@ var app = new Vue({
         addService: function () {
             var data = { topic: this.topic, location: this.location, price: this.price, time: this.time, email: this.email }
 
-            fetch('http://localhost:3000/collections/courses', {
+            fetch('https://localhost:3000/collections/courses', {
                 method: 'POST', // or 'PUT'
                 headers: {
                     'Content-Type': 'application/json',
@@ -102,7 +102,7 @@ var app = new Vue({
             var data = { topic: this.newTopic, location: this.newLocation, price: this.newPrice, time: this.newTime }
 
 
-            fetch(`http://localhost:3000/collections/courses/${id}`, {
+            fetch(`https://localhost:3000/collections/courses/${id}`, {
                 method: 'Put',
                 headers: {
                     'Content-Type': 'application/json',
@@ -120,7 +120,7 @@ var app = new Vue({
         },
         deleteCourse: function () {
             var deleteId = this.deleteId;
-            fetch(`http://localhost:3000/collections/courses/${deleteId}`, {
+            fetch(`https://localhost:3000/collections/courses/${deleteId}`, {
                 method: 'delete',
                 headers: {
                     'Content-Type': 'application/json',
@@ -139,10 +139,10 @@ var app = new Vue({
         addRate:function(){
             var id = this.rateId;
             newEmail = this.email;
-            var data = {rate:[{rate:this.selected}, {email:newEmail }] }
+            var data = {rate:this.selected}
 
 
-            fetch(`http://localhost:3000/collections/courses/${id}`, {
+            fetch(`https://localhost:3000/collections/courses/${id}`, {
                 method: 'Put',
                 headers: {
                     'Content-Type': 'application/json',
@@ -185,7 +185,7 @@ var app = new Vue({
 
     }
 })
-fetch('http://localhost:3000/collections/courses')
+fetch('https://localhost:3000/collections/courses')
 
     .then(response => {
 
