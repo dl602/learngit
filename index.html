@@ -281,6 +281,11 @@
                         }).catch(function (err) {
                                 console.log('Fetch problem: ' + err.message);
                         })
+                        if('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js');
+        };
+        
+       
 
 
         </script>
