@@ -30,17 +30,7 @@
 
                         </article>
                         
-                        <select v-model="selected">
-                                        <option v-for="option in options" v-bind:value="option.value">
-                                        {{ option.text }}
-                                         </option>
-                                        </select>
-                                        {{selected}}
-                               ID: <input type="text" v-model ="rateId">
-                               <button v-on:click="addRate">Rate</button>
-
-
-
+                        
                 </span>
                 <span v-else-if="provider">
                         <button @click='signout'>Sign out</button>
