@@ -92,7 +92,15 @@
 
 
                                 <button v-on:click='signup'>Sign up</button>
+
                         </form>
+
+                        <article v-for="course in courses">
+                                <img :src="'data/img/'+course.slug+'.jpg'" :alt="course.topic" :height="100">
+                                <h3>course:{{course.topic}}</h3>
+                                <h3>price:{{course.price}}</h3>
+
+                        </article>
 
                         <button v-on:click='signin'>Sign in</button>
                         <button v-on:click='signout'>Sign out</button>
