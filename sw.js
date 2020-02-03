@@ -9,7 +9,13 @@ self.addEventListener('install', (e) => {
     var appShellFiles = [
         '/learngit/index.html',
         '/learngit/style.css',
-    '/learngit/app.js']
+    '/learngit/app.js',
+  '/learngit/icons/icon.png',
+  '/learngit/icons/icon1.png',
+
+    
+
+  ]
         var courseImages = [];
         for(var i=0; i<courses.length; i++) {
           courseImages.push('data/img/'+courses[i].slug+'.jpg');
