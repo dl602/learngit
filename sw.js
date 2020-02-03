@@ -8,7 +8,9 @@ self.addEventListener('install', (e) => {
 
     var appShellFiles = [
         '/learngit/index.html',
-        '/learngit/style.css']
+        '/learngit/style.css',
+      'learngit/data',
+    'learngit/data/placeholder.png']
         var courseImages = [];
         for(var i=0; i<courses.length; i++) {
           courseImages.push('data/img/'+courses[i].slug+'.jpg');
