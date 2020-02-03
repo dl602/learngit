@@ -2,10 +2,10 @@ self.addEventListener('install', (e) => {
     console.log('[Service Worker] Install');
 });
 
-var cacheName = 'cw2-1';
+var cacheName = 'cw2-2';
 var coursesImages = [];
-for(var i=0; i<courses.length; i++) {
-CoursesImages.push('data/img/'+courses[i].slug+'.jpg');
+for(var i=0; i<app.courses.length; i++) {
+CoursesImages.push('data/img/'+app.courses[i].slug+'.jpg');
 }
 var contentToCache = appShellFiles.concat(coursesImages);
 
