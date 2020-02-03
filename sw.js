@@ -2,8 +2,8 @@
 self.importScripts('data/courses.js');
 
     var appShellFiles = [
-        '/pwa-examples/js13kpwa/',
-        '/pwa-examples/js13kpwa/index.html']
+        '/learngit/index.html',
+        '/learngit/style.css']
         var courseImages = [];
         for(var i=0; i<courses.length; i++) {
           courseImages.push('data/img/'+courses[i].slug+'.jpg');
