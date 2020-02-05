@@ -24,7 +24,7 @@ var app = new Vue({
             deleteId: '',
             userLocations: [],
             term: '',
-            lesson:course
+            lesson:courses
     },
     methods: {
             signup: function () {
