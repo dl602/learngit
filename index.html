@@ -2,127 +2,152 @@
 
 <head>
         <title>cw2</title>
-        <script src="https://unpkg.com/vue"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue"></script>
         <link href="style.css" rel="stylesheet" type="text/css" />
         <meta name="theme-color" content="#B12A34">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-        <script src="app.js" defer></script>
+       
         <script src="data/courses.js"></script>
         <link rel="manifest" href="js13kpwa.webmanifest">
         <link rel="stylesheet" href="style.css">
+        <script src="app.js" defer></script>
        
 
 
 </head>
 
 <body>
-        <div id='app'>
-                <span v-if='currentUser'>
-                        {{currentUser}}
-
-                        <button @click='signout'>Sign out</button>
-
-                        <article v-for="course in courses">
-                                <img :src="'data/img/'+course.slug+'.jpg'" :alt="course.topic" :height="100">
-                                <h3>course:{{course.topic}}</h3>
-                                <h3>price:{{course.price}}</h3>
-
-                        </article>
-                        
-                        
-                </span>
-                <span v-else-if="provider">
-                        <button @click='signout'>Sign out</button>
-                        <div v-for='product in providerCourse' class='course'>
-                                <ul>
-                                        <li v-for='(value, key) in product'>
-                                                {{key}}: {{value}}
-                                        </li>
-                                </ul>
-                        </div>
-                        <h1>Add Service</h1>
-
-                        <form>
-                                Topic:<input type="text" v-model="topic">
-                                location:<input type="text" v-model="location">
-                                price<input type="number" v-model="price">
-                                Time<input type="time" v-model="time">
-
-
-                        </form>
-                        <button v-on:click="addService">add service</button>
-                        <p>update course</p>
-                        <p>please enter the ID of the course you wanna change</p>
-
-                        <form>
-                                ID:<input type='text' v-model="id">
-                                Topic:<input type="text" v-model="newTopic">
-                                location:<input type="text" v-model="newLocation">
-                                price<input type="number" v-model="newPrice">
-                                Time<input type="time" v-model="newTime">
-
-                                <button v-on:click="update">update course</button>
-                        </form>
-                        <h3>delete course</h3>
-                        Enter Id: <input type="text" v-model="deleteId">
-                        <button v-on:click="deleteCourse">Delete course</button>
-
-
-
-
-
-
-
-
-
-
-                </span>
-
-
-
-                <span v-else>
-                        <button id="notifications">Request  notifications</button>
-                        <form>
-
-
-                                <label for="email">Email</label>
-                                <input required type="email" v-model="email">
-                                <label for="password">Password</label>
-                                <input required type="password" v-model="password">
-                                <input type="radio" id="option1" value="student" v-model="userType">
-                                <label for="option1">student</label>
-                                <input type="radio" id="option2" value="provider" v-model="userType">
-                                <label for="option2">provider</label>
-
-
-
-
-
-                                <button v-on:click='signup'>Sign up</button>
-
-                        </form>
-                        <button v-on:click='signin'>Sign in</button>
-                        <button v-on:click='signout'>Sign out</button>
-
-
-                        <article v-for="course in lesson">
-                                <img :src="'data/img/placeholder.png'":data-src="'data/img/'+course.slug+'.jpg'" :alt="course.name" :height="100">
-                             
-
-                                <h3>course:{{course.name}}</h3>
-                                <h3>Tutor:{{course.author}}</h3>
+               
+                <div id='app'>
+                                <span v-if='currentUser'>
+                                        {{currentUser}}
+                                        <h1>student</h1>
+                
+                                        <button @click='signout'>Sign out</button>
+                
+                                        <h1>your information</h1>
+                                        <div v-for="user in userInfo" class="userInfo">
+                                                <li v-for='(value, name) in user'>{{name}}: {{value}}</li>
+                                        </div>
+                
+                                        Search <input v-model='term'><br><br>
+                                        <!-- filter -->
+                
+                                        <div v-for='course in results' class='course'>
+                                                <ul>
+                                                        <li v-for='(value, key) in course'>
+                                                                {{key}}: {{value}}
+                                                        </li>
+                                                </ul>
+                                        </div>
+                                        <p>please insert Course ID to rate the course </p>
+                
+                                        <form @submit.prevent="addRating">
+                                                <input type="text" v-model="rankId"><br>
+                                                <input type="radio" v-model="picked" value=1> 1<br>
+                                                <input type="radio" v-model="picked" value=2> 2<br>
+                                                <input type="radio" v-model="picked" value=3> 3<br>
+                                                <input type='submit' value='submit'>
+                                        </form>
+                
+                
+                                </span>
+                                <span v-else-if="provider">
+                                        <button @click='signout'>Sign out</button>
+                
+                                        <h1>your information</h1>
+                                        <div v-for="user in userInfo" class="userInfo">
+                                                <li v-for='(value, name) in user'>{{name}}: {{value}}</li>
+                                        </div>
+                
+                                        <h1>your courses</h1>
+                                        <div v-for='product in providerCourse' class='course'>
+                                                <ul>
+                                                        <li v-for='(value, key) in product'>
+                                                                {{key}}: {{value}}
+                                                        </li>
+                                                </ul>
+                                        </div>
+                                        <h1>Add Service</h1>
+                
+                                        <form>
+                                                Topic:<input type="text" v-model="topic">
+                                                location:<input type="text" v-model="location">
+                                                price<input type="number" v-model="price">
+                                                Time<input type="time" v-model="time">
+                
+                
+                                        </form>
+                                        <button v-on:click="addService">add service</button>
+                                        <p>update course</p>
+                                        <p>please enter the ID of the course you wanna change</p>
+                
+                                        <form>
+                                                ID:<input type='text' v-model="id">
+                                                Topic:<input type="text" v-model="newTopic">
+                                                location:<input type="text" v-model="newLocation">
+                                                price<input type="number" v-model="newPrice">
+                                                Time<input type="time" v-model="newTime">
+                
+                                                <button v-on:click="update">update course</button>
+                                        </form>
+                                        <h3>delete course</h3>
+                                        Enter Id: <input type="text" v-model="deleteId">
+                                        <button v-on:click="deleteCourse">Delete course</button>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                                </span>
+                
+                
+                
+                                <span v-else>
 
 
-                        </article>
-
-
-
-                        {{userMessage}}
-                </span>
-
-        </div>
-
+                                        <button id='notifications'>notification</button>
+                                        <form @submit.prevent="signup">
+                
+                                                <label for="email">Email</label>
+                                                <input required type="email" v-model="email">
+                                                <label for="password">Password</label>
+                                                <input required type="password" v-model="password">
+                                                <input type="radio" id="option1" value="student" v-model="userType">
+                                                <label for="option1">student</label>
+                                                <input type="radio" id="option2" value="provider" v-model="userType">
+                                                <label for="option2">provider</label>
+                                                <input type="submit" value='signup'>
+                
+                
+                
+                
+                                        </form>
+                
+                                        <button v-on:click='signin'>Sign in</button>
+                                        <button v-on:click='signout'>Sign out</button>
+                
+                                        {{userMessage}}
+                
+                                        <article v-for="course in lesson">
+                                                <img :src="'data/img/placeholder.png'" :data-src="'data/img/'+course.slug+'.jpg'" :alt="course.name"
+                                                        :height="100">
+                
+                
+                                                <h3>course:{{course.name}}</h3>
+                                                <h3>Tutor:{{course.author}}</h3>
+                
+                
+                                        </article>
+                                        </span>
+                                        </div>
+                
 
 
 

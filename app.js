@@ -1,219 +1,275 @@
-var app = new Vue({
-    el: "#app",
-    data: {
-            currentUser: '',
-            email: '',
-            password: '',
-            userMessage: '',
-            userType: '',
-            courses: [],
-            users: [],
-            'term': '',
-            response: '',
-            provider: '',
-            topic: '',
-            locations: '',
-            price: '',
-            time: '',
-            id: '',
-            newTopic: '',
-            newLocation: '',
 
-            newPrice: '',
-            newTime: '',
-            deleteId: '',
-            userLocations: [],
-            term: '',
-            lesson:courses
-    },
-    methods: {
-            signup: function () {
-                    // var  = { email: this.email, password: this.password, userType: this.userType }
-                    this.userMessage = '';
-                    // more validation should be included
-                    if (!this.email) {
-                            this.userMessage = 'error: empty email';
-                            return
-                    }
-                    if (!this.password) {
-                            this.userMessage = 'error: empty password';
-                            return;
-                    }
-                    var data = {
-                            'email': this.email,
-                            'password': this.password,
-                            'userType': this.userType
-                    }
+ var app = new Vue({
+        el: "#app",
+        data: {
+                currentUser: '',
+                email: '',
+                password: '',
+                userMessage: '',
+                userType: '',
+                courses: [],
+                users: [],
+                'term': '',
+                response: '',
+                provider: '',
+                topic: '',
+                locations: '',
+                price: '',
+                time: '',
+                id: '',
+                newTopic: '',
+                newLocation: '',
 
-                    fetch('http://localhost:3000/collections/users', {
-                            method: 'post', // or 'PUT'
-                            headers: {
-                                    'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify(data),
-                    })
-                            .then((response) => response.json())
-                            .then((data) => {
-                                    console.log('Success:', data);
-                                    alert("registered")
-                            })
-                            .catch((error) => {
-                                    console.error('Error:', error);
-                            });
-            },
+                newPrice: '',
+                newTime: '',
+                deleteId: '',
 
-            signin: function () {
+                term: '',
+                userId: '',
+                picked: '',
+                rankId: '',
+                lesson:courses
+        },
+        methods: {
+                signup: function () {
+                        // var  = { email: this.email, password: this.password, userType: this.userType }
+                        this.userMessage = '';
+                        // more validation should be included
+                        if (!this.email) {
+                                this.userMessage = 'error: empty email';
+                                return
+                        }
+                        if (!this.password) {
+                                this.userMessage = 'error: empty password';
+                                return;
+                        }
+                        var newEmail = this.email
+                        if (this.users.some(function (user) { return user.email === newEmail })) {
+                                alert('Email already exists!');
+                                return;
+                        }
+
+                        var data = {
+                                'email': this.email,
+                                'password': this.password,
+                                'userType': this.userType
+                        }
 
 
-                    var newEmail = this.email;
-                    var newPassword = this.password;
-                    if (this.users.some(function (user) { return (user.email === newEmail && user.password === newPassword && user.userType === 'student') })) {
-                            alert("loggedin")
-                            this.currentUser = this.email
-                    }
-                    else if (this.users.some(function (user) { return (user.email === newEmail && user.password === newPassword && user.userType === 'provider') })) {
-                            alert('loggedin')
-                            this.provider = this.email;
-                    }
-            },
+                        fetch('http://localhost:3000/collections/users', {
+                                method: 'post', // or 'PUT'
+                                headers: {
+                                        'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify(data),
+                        })
+                                .then((response) => response.json())
+                                .then((data) => {
+                                        console.log('Success:', data);
+                                        alert("registered")
+                                })
+                                .catch((error) => {
+                                        console.error('Error:', error);
+                                });
+                },
 
-            signout: function () {
-
-                    this.currentUser = '';
-                    this.email = '';
-                    this.password = '';
-                    this.provider = '';
-            },
-            reset: function () {
-                    this.userLocations = [];
-            },
-            addService: function () {
-                    var data = { topic: this.topic, location: this.location, price: this.price, time: this.time, email: this.email }
-
-                    fetch('http://localhost:3000/collections/courses', {
-                            method: 'POST', // or 'PUT'
-                            headers: {
-                                    'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify(data),
-                    })
-                            .then((response) => response.json())
-                            .then((data) => {
-                                    console.log('Success:', data);
-                                    alert("added")
-                            })
-                            .catch((error) => {
-                                    console.error('Error:', error);
-                            });
-
-            },
-            update: function () {
-                    var id = this.id;
-                    var data = { topic: this.newTopic, location: this.newLocation, price: this.newPrice, time: this.newTime }
+                signin: function () {
 
 
-                    fetch(`http://localhost:3000/collections/courses/${id}`, {
-                            method: 'Put',
-                            headers: {
-                                    'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify(data),
-                    })
-                            .then((response) => response.json())
-                            .then((data) => {
-                                    console.log('Success:', data);
-                                    alert("updated")
-                            })
-                            .catch((error) => {
-                                    console.error('Error:', error);
-                            });
-            },
-            deleteCourse: function () {
-                    var deleteId = this.deleteId;
-                    fetch(`http://localhost:3000/collections/courses/${deleteId}`, {
-                            method: 'delete',
-                            headers: {
-                                    'Content-Type': 'application/json',
-                            },
+                        var newEmail = this.email;
+                        var newPassword = this.password;
+                        if (this.users.some(function (user) { return (user.email === newEmail && user.password === newPassword && user.userType === 'student') })) {
+                                alert("loggedin")
+                                this.currentUser = this.email
+                                return
+                        }
+                        else if (this.users.some(function (user) { return (user.email === newEmail && user.password === newPassword && user.userType === 'provider') })) {
+                                alert('loggedin')
 
-                    })
-                            .then((response) => response.json())
-                            .then((data) => {
-                                    console.log('Success:', data);
-                                    alert("updated")
-                            })
-                            .catch((error) => {
-                                    console.error('Error:', error);
-                            });
-            }
+                                this.provider = this.email;
+                                return
+                        }
+                        else {
+                                alert("email or password is incorrect")
+                                this.email = ''
+                                this.password = ''
+                        }
+                },
+
+                signout: function () {
+
+                        this.currentUser = '';
+                        this.email = '';
+                        this.password = '';
+                        this.provider = '';
+                },
 
 
+                addService: function () {
+                        var data = { topic: this.topic, location: this.location, price: this.price, time: this.time, email: this.email }
 
-    }
+                        fetch('http://localhost:3000/collections/courses', {
+                                method: 'POST', // or 'PUT'
+                                headers: {
+                                        'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify(data),
+                        })
+                                .then((response) => response.json())
+                                .then((data) => {
+                                        console.log('Success:', data);
+                                        alert("added")
+                                })
+                                .catch((error) => {
+                                        console.error('Error:', error);
+                                });
 
-    ,
-    computed: {
-            results: function () {
-                    return this.courses.filter(course =>
-                            course.topic.includes(this.term)
-                    )
-            },
-            providerCourse: function () {
-                    newEmail = this.email
-                    return this.courses.filter(function (course) {
-                            if (course.email === newEmail) {
-                                    return course.topic
-                            }
-                    })
+                },
+                update: function () {
+                        var id = this.id;
+                        var data = { topic: this.newTopic, location: this.newLocation, price: this.newPrice, time: this.newTime }
 
-            }
 
-    },
-    locations: function () {
-            // update option list
-            return [...new Set(this.results.map(x => x.location))]
-    }, results: function () {
-            return courses.filter(course => {
-                    // search condition
-                    var searchCourse = course.topic.includes(this.term);
-                    // filter condition
-                    var filterCourse = this.userLocations.length == 0 ||
-                            this.userLocations.includes(course.location);
-                    // combine the result
-                    return searchCourse && filterCourse;
-            })
-    }
+                        fetch(`http://localhost:3000/collections/courses/${id}`, {
+                                method: 'Put',
+                                headers: {
+                                        'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify(data),
+                        })
+                                .then((response) => response.json())
+                                .then((data) => {
+                                        console.log('Success:', data);
+                                        alert("updated")
+                                })
+                                .catch((error) => {
+                                        console.error('Error:', error);
+                                });
+                },
+                deleteCourse: function () {
+                        var deleteId = this.deleteId;
+                        fetch(`http://localhost:3000/collections/courses/${deleteId}`, {
+                                method: 'delete',
+                                headers: {
+                                        'Content-Type': 'application/json',
+                                },
+
+                        })
+                                .then((response) => response.json())
+                                .then((data) => {
+                                        console.log('Success:', data);
+                                        alert("updated")
+                                })
+                                .catch((error) => {
+                                        console.error('Error:', error);
+                                });
+                },
+                addRating: function () {
+                        var id = this.rankId;
+                        var data = { 'ranking': [{ user: this.email, ranking: this.picked }] }
+                        fetch(`http://localhost:3000/collections/courses/${id}`, {
+                                method: 'Put',
+                                headers: {
+                                        'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify(data),
+                        })
+                                .then((response) => response.json())
+                                .then((data) => {
+                                        console.log('Success:', data);
+                                        alert("updated")
+                                })
+                                .catch((error) => {
+                                        console.error('Error:', error);
+                                });
+                },
+
+
+
+
+
+        }
+
+        ,
+        computed: {
+                results: function () {
+                        return this.courses.filter(course =>
+                                course.topic.includes(this.term)
+                        )
+                },
+                providerCourse: function () {
+                        newEmail = this.email
+                        return this.courses.filter(function (course) {
+                                if (course.email === newEmail) {
+                                        return course
+
+                                }
+                        })
+
+                }, userInfo: function () {
+                        newEmail = this.email
+                        return this.users.filter(function (user) {
+                                if (user.email === newEmail) {
+                                        return user;
+
+                                }
+                        })
+
+                },
+
+
+
+
+
+
+
+
+
+
+
+        },
+
+        results: function () {
+                return courses.filter(course => {
+                        // search condition
+                        var searchCourse = course.topic.includes(this.term);
+
+
+
+                        return searchCourse
+                })
+        }
 
 })
 fetch('http://localhost:3000/collections/courses')
 
-    .then(response => {
+        .then(response => {
 
-            return response.json();
-    })
+                return response.json();
+        })
 
 
-    .then(response => {
-            // alert(response);
-            app.courses = response;
-    }).catch(function (err) {
-            console.log('Fetch problem: ' + err.message);
-    })
+        .then(response => {
+                // alert(response);
+                app.courses = response;
+        }).catch(function (err) {
+                console.log('Fetch problem: ' + err.message);
+        })
 
 fetch('http://localhost:3000/collections/users')
 
-    .then(response => {
+        .then(response => {
 
-            return response.json();
-    })
+                return response.json();
+        })
 
 
-    .then(response => {
-            // alert(response);
-            app.users = response;
-    }).catch(function (err) {
-            console.log('Fetch problem: ' + err.message);
-    })
+        .then(response => {
+                // alert(response);
+                app.users = response;
+        }).catch(function (err) {
+                console.log('Fetch problem: ' + err.message);
+        })
 
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('sw.js');
