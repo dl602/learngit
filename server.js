@@ -1,11 +1,15 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-var router = express.Router();
-var path = require('path');
+
 const app = express();
+var cors = require('cors')
 
+app.use(cors())
 
-app.use(express.static('public'))
+app.get(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    next();
+    });
 // load bodyParser module for json payload parsing
 
 
@@ -29,10 +33,8 @@ return next()
 })
 
 // dispaly a message for root path to show that API is working
-app.get('/', function (req, res) {
-    res.sendFile(path.join(__dirname + '/index.html'));
 
-})
+
 
 
 // retrieve all the objects from an collection
@@ -56,6 +58,8 @@ console.log(req.body)
 })
 
 app.get('/collections/:collectionName', (req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+
     req.collection.find({}).toArray((e, results) => {
     if (e) return next(e)
     res.send(results)
